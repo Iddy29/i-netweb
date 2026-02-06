@@ -32,6 +32,7 @@ export default function Register() {
         email: form.email,
         phone: form.phone,
         password: form.password,
+        confirmPassword: form.confirmPassword,
       });
       if (data.success) {
         toast.success('OTP sent to your email!');
