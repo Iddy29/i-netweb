@@ -10,6 +10,22 @@ import {
 } from 'react-icons/hi';
 import { MdSportsSoccer, MdChildCare, MdTheaters } from 'react-icons/md';
 
+const API_BASE = process.env.REACT_APP_API_URL || 'https://api.i-nettz.site/api';
+
+/**
+ * If the page is loaded over HTTPS but the stream URL is HTTP,
+ * route through the backend proxy to avoid mixed-content blocking.
+ */
+function getProxiedUrl(streamUrl) {
+  if (!streamUrl) return streamUrl;
+  const isPageHttps = window.location.protocol === 'https:';
+  const isStreamHttp = streamUrl.startsWith('http://');
+  if (isPageHttps && isStreamHttp) {
+    return `${API_BASE}/stream-proxy?url=${encodeURIComponent(streamUrl)}`;
+  }
+  return streamUrl;
+}
+
 const CATEGORIES = [
   { key: 'all', label: 'All', icon: <HiViewGrid size={16} /> },
   { key: 'General', label: 'General', icon: <HiGlobeAlt size={16} /> },
@@ -149,7 +165,7 @@ export default function Channels() {
     }
 
     // Create new HLS on standby (muted, playing to buffer)
-    const hls = createHls(standbyVideoRef.current, channel.streamUrl, true, true);
+    const hls = createHls(standbyVideoRef.current, getProxiedUrl(channel.streamUrl), true, true);
     standbyHlsRef.current = hls;
 
     if (hls && hls !== 'native') {
@@ -200,7 +216,7 @@ export default function Channels() {
       // Standby not ready — reload on standby directly
       const standbyHlsRef = frame === 'A' ? hlsRefB : hlsRefA;
       destroyHlsInstance(standbyHlsRef);
-      const hls = createHls(standbyVideoRef.current, channel.streamUrl, true, false);
+      const hls = createHls(standbyVideoRef.current, getProxiedUrl(channel.streamUrl), true, false);
       if (frame === 'A') hlsRefB.current = hls;
       else hlsRefA.current = hls;
 
@@ -232,7 +248,7 @@ export default function Channels() {
     const activeHlsRef = frame === 'A' ? hlsRefA : hlsRefB;
 
     destroyHlsInstance(activeHlsRef);
-    const hls = createHls(activeVideoRef.current, channel.streamUrl, true, false);
+    const hls = createHls(activeVideoRef.current, getProxiedUrl(channel.streamUrl), true, false);
     activeHlsRef.current = hls;
 
     if (hls && hls !== 'native') {
@@ -259,7 +275,7 @@ export default function Channels() {
     setTimeout(() => {
       // Start Frame A
       destroyAll();
-      const hlsA = createHls(videoRefA.current, channel.streamUrl, true, false);
+      const hlsA = createHls(videoRefA.current, getProxiedUrl(channel.streamUrl), true, false);
       hlsRefA.current = hlsA;
 
       if (hlsA && hlsA !== 'native') {
