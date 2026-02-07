@@ -71,4 +71,26 @@ export const notificationsAPI = {
   markAllAsRead: () => api.put('/notifications/read-all'),
 };
 
+export const videosAPI = {
+  getAll: (category) => api.get('/videos', { params: category ? { category } : {} }),
+  getCategories: () => api.get('/videos/categories'),
+};
+
+export const adultVideosAPI = {
+  getAll: (category) => api.get('/adult-videos', { params: category ? { category } : {} }),
+  getCategories: () => api.get('/adult-videos/categories'),
+  incrementViews: (id) => api.put(`/adult-videos/${id}/view`),
+  initiatePayment: (data) => api.post('/adult-videos/pay', data),
+  checkPaymentStatus: (purchaseId) => api.get(`/adult-videos/pay/${purchaseId}/status`),
+  checkPurchase: (videoId) => api.get(`/adult-videos/${videoId}/purchased`),
+};
+
+export const subscriptionAPI = {
+  getPlans: () => api.get('/subscriptions/plans'),
+  getMySubscription: () => api.get('/subscriptions/my'),
+  validatePromo: (data) => api.post('/subscriptions/validate-promo', data),
+  subscribe: (data) => api.post('/subscriptions/subscribe', data),
+  checkPaymentStatus: (subscriptionId) => api.get(`/subscriptions/${subscriptionId}/status`),
+};
+
 export default api;

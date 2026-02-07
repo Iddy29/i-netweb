@@ -15,6 +15,8 @@ import Transactions from './pages/Transactions';
 import Notifications from './pages/Notifications';
 import Profile from './pages/Profile';
 import Chat from './pages/Chat';
+import Channels from './pages/Channels';
+import AdultVideos from './pages/AdultVideos';
 
 function App() {
   return (
@@ -44,11 +46,13 @@ function App() {
           {/* Protected routes with layout */}
           <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
             <Route path="/home" element={<Home />} />
+            <Route path="/channels" element={<Channels />} />
             <Route path="/orders" element={<Orders />} />
             <Route path="/transactions" element={<Transactions />} />
             <Route path="/notifications" element={<Notifications />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/chat" element={<Chat />} />
+            <Route path="/adult-videos" element={<AdultVideos />} />
           </Route>
 
           {/* Catch-all */}

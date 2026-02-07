@@ -5,7 +5,7 @@ import { notificationsAPI } from '../services/api';
 import {
   HiHome, HiShoppingCart, HiChatAlt2, HiMenu, HiX,
   HiBell, HiUser, HiLogout, HiClock, HiCog,
-  HiGlobeAlt, HiChevronDown,
+  HiGlobeAlt, HiChevronDown, HiStatusOnline, HiFilm,
 } from 'react-icons/hi';
 
 export default function Layout() {
@@ -35,9 +35,11 @@ export default function Layout() {
 
   const navItems = [
     { to: '/home', icon: <HiHome size={20} />, label: 'Home' },
+    { to: '/channels', icon: <HiStatusOnline size={20} />, label: 'Live TV' },
     { to: '/orders', icon: <HiShoppingCart size={20} />, label: 'My Orders' },
     { to: '/transactions', icon: <HiClock size={20} />, label: 'Transactions' },
     { to: '/chat', icon: <HiChatAlt2 size={20} />, label: 'Support' },
+    { to: '/adult-videos', icon: <HiFilm size={20} />, label: '18+ Videos' },
   ];
 
   return (
